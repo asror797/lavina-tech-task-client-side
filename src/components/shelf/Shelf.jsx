@@ -1,18 +1,28 @@
 
 import { useEffect, useState } from 'react'
 import './shelf.scss'
+import Delete from '../delete/Delete'
+import Edit from '../edit/Edit'
 
 const Shelf = () => {
 
    const [books , setBooks] = useState([])
+   const [delModal , setDelModal ] = useState(false)
+   const [editModal , setEditModal ] = useState(false)
+   const [ISBN,setIsbn] = useState('')
 
    const statusChecker = (status) => {
       if(status == 1)
          return "Reading"
       if(status == 2) 
-         return "Finished"
+         return "Finished 🏁"
       if(status == 0) 
-         return "New"
+         return "New 🔥"
+   }
+
+   const deleteBtnHandler = e => {
+      setDelModal(true)
+      setIsbn(e.target.dataset.isbn)
    }
    useEffect(()=> {
       fetch('http://localhost:9000/books')
@@ -23,7 +33,7 @@ const Shelf = () => {
          .catch(err => {
             console.log(err)
          })
-   })
+   },[])
    
    return(
       <div className='shelf'>
@@ -42,7 +52,7 @@ const Shelf = () => {
             <tbody>
                {books.map((book,index) => {
                   return(
-                     <tr>
+                     <tr key={index}>
                         <td>{index+1}</td>
                         <td><a href="#">#{book.isbn}</a></td>
                         <td>{book.title}</td>
@@ -50,14 +60,23 @@ const Shelf = () => {
                         <td>{book.publish_date}</td>
                         <td>{statusChecker(book.status)}</td>
                         <td>
-                           <button className='editbtn'>Edit</button>
-                           <button className='delbtn'>Delete</button>
+                           <button 
+                              onClick={() => setEditModal(true)}
+                              className='editbtn'>Edit</button>
+                           <button 
+                              data-isbn = {book.isbn}
+                              onClick={deleteBtnHandler}
+                              className='delbtn'>
+                              Delete
+                           </button>
                         </td>
                      </tr>
                   )
                })}
             </tbody>
          </table>
+         { delModal ? <Delete ISBN = {ISBN} setDelModal = {setDelModal}  delModal = {delModal}/> : null}
+         { editModal ? <Edit setEditModal = {setEditModal} editModal = {editModal}/> : null}
       </div>
    )
 }

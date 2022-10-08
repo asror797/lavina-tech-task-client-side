@@ -12,7 +12,7 @@ function App() {
       <div className="container">
         <Header setModal = {setModal} isOpen = {isOpen}/>
         <Shelf/>
-        { isOpen ? <NewBook/> : null}
+        { isOpen ? <NewBook setModal = {setModal} isOpen={isOpen}/> : null}
       </div>
     </>
   )

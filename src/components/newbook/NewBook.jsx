@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './newbook.scss'
 
-const NewBook = () => {
+const NewBook = ({setModal , isOpen}) => {
 
 
    const [ISBN , setISBN ] = useState()
@@ -39,10 +39,20 @@ const NewBook = () => {
                   required 
                   type="text" 
                   placeholder='ISBN id' />
-               <button
-                  onClick={addNewBook}>
-                  Add
-               </button>
+               <div className="addbtns">
+                  <button
+                     className='cancelBtn'
+                     onClick={() => {
+                        setModal(!isOpen)
+                     }}>
+                     Cancel
+                  </button>
+                  <button
+                     className='deleteBtn'
+                     onClick={addNewBook}>
+                     Add
+                  </button>
+               </div>
             </div>
          </div>
       </div>
