@@ -1,35 +1,38 @@
-
-import { useEffect, useState } from 'react'
 import './edit.scss'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-const Edit = ({setEditModal , editModal , bookid , shelfBooks , setBooktoShelf}) => {
+const Edit = ({setEditModal , bookid , shelfBooks , setBooktoShelf}) => {
 
-
-   const [status , setStatus ] = useState('')
+   const [status , setStatus ] = useState('3')
    const [editBook , setBook ] = useState({})
-
-   const CancelHandler = () => {
-      setEditModal(!editModal)
-   }
-
-   const StatusHandler = e => {
-      setStatus(e.target.value)
-   }
 
    useEffect(() => {
       fetch(`http://localhost:9000/book/${bookid}`)
          .then(res => res.json())
          .then(data => {
+            console.log(data)
             setBook(data)
          })
          .catch(err => {
             console.log(err)
          })
-   })
+   },[])
+   
+
+   const CancelHandler = () => {
+      setEditModal(false)
+   }
+
+   const StatusHandler = e => {
+      setStatus(parseInt(e.target.value))
+   }
 
    const UpdateHandler = () => {
-      fetch('http://localhost:9000/update',{
+      if(status == editBook.status ||  status == '3' ) {
+         setEditModal(false)
+      }else {
+         fetch('http://localhost:9000/update',{
          method:"PUT",
          headers:{
             'Content-Type':'application/json'
@@ -41,7 +44,6 @@ const Edit = ({setEditModal , editModal , bookid , shelfBooks , setBooktoShelf})
       })
          .then(res => res.json())
          .then(data => {
-            console.log(data)
             if(data.id) {
                for (let i = 0; i < shelfBooks.length; i++) {
                   if(shelfBooks[i].id == data.id) {
@@ -55,21 +57,21 @@ const Edit = ({setEditModal , editModal , bookid , shelfBooks , setBooktoShelf})
          })
          .catch(err => {
             console.log(err)
-            toast.dark('Error accoured')
+            toast.warning('Error accoured')
          })
+      }
    }
 
-
+   
    return(
       <div className="modal">
          <div className="editmodal">
             <h1>Change Status</h1>
             <select
-               defaultValue={editBook.status}
                onChange={StatusHandler}>
-               <option value="0">New</option>
-               <option value="1">Read</option>
-               <option value="2">Finished</option>
+               <option selected={editBook.status == 0 ? true : false} value="0">New</option>
+               <option selected={editBook.status == 1 ? true : false} value="1">Read</option>
+               <option selected={editBook.status == 2 ? true : false}  value="2">Finished</option>
             </select>
             <div className="editModalBtn">
                <button 

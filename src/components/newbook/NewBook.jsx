@@ -1,18 +1,18 @@
-import { useState } from 'react'
 import './newbook.scss'
-// import { injectStyle } from "react-toastify/dist/inject-style";
+import { useState } from 'react'
 import { toast } from "react-toastify";
-const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
 
+
+const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
 
    const [ISBN , setISBN ] = useState()
 
    const addNewBook = async() => {
       try {
-         let response = await fetch(`http://localhost:9000/add/${ISBN}`)
-
-         response = await response.json()
          setModal(false)
+         let response = await fetch(`http://localhost:9000/add/${ISBN}`)
+         response = await response.json()
+
          if(response.isbn ) {
             toast.success("Book Added")
             setBooktoShelf([...shelfBooks , response])
@@ -23,6 +23,7 @@ const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
 
       } catch (error) {
          console.log(error)
+         toast.warning("Something is wrong")
       }
    }
 
@@ -30,14 +31,9 @@ const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
       setISBN(e.target.value)
    }
 
-   const modalHandler = () => {
-      console.log('Close modal ')
-   }
-
 
    return(
-      <div className="modal" 
-         onClick={modalHandler}>
+      <div className="modal">
          <div className="modal-newBook">
             <h1>Add new book</h1>
             <div className="form">

@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 
 const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) => {
 
-
-
    const deleteBook = () => {
       fetch(`http://localhost:9000/delete/${ISBN}`,{
          method:"DELETE",
@@ -15,18 +13,9 @@ const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) =
       })
          .then(res => res.json())
          .then(data => {
-            console.log(data)
-            toast.success('Deleted', {
-               position: "top-right",
-               autoClose: 5000,
-               hideProgressBar: false,
-               closeOnClick: true,
-               pauseOnHover: false,
-               draggable: true,
-               progress: undefined,
-            });
+            toast.success('Deleted');
             for (let i = 0; i < shelfBooks.length; i++) {
-               if(shelfBooks[i].isbn == ISBN) {
+               if(shelfBooks[i].isbn == data.isbn) {
                   shelfBooks.splice(i,1)
                   setBooktoShelf(shelfBooks)
                }
@@ -40,7 +29,7 @@ const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) =
    }
 
    const CancelHandler = () => {
-      setDelModal(!delModal)
+      setDelModal(false)
    }
 
    return(
