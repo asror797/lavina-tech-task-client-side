@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './newbook.scss'
-
-const NewBook = ({setModal , isOpen}) => {
+// import { injectStyle } from "react-toastify/dist/inject-style";
+import { toast } from "react-toastify";
+const NewBook = ({setModal , isOpen , shelfBooks , setBooktoShelf}) => {
 
 
    const [ISBN , setISBN ] = useState()
@@ -11,11 +12,15 @@ const NewBook = ({setModal , isOpen}) => {
          let response = await fetch(`http://localhost:9000/add/${ISBN}`)
 
          response = await response.json()
-
          console.log(response)
+         if(response.isbn ) {
+            toast.dark("Book Added")
+            setBooktoShelf([...shelfBooks , response])
+            setModal(!isOpen)
+         }
 
       } catch (error) {
-         console.log(response)
+         console.log(error)
       }
    }
 
@@ -38,7 +43,8 @@ const NewBook = ({setModal , isOpen}) => {
                   onChange={inputHandler}
                   required 
                   type="text" 
-                  placeholder='ISBN id' />
+                  placeholder='OpenLibrary.org  Book id' />
+               <a className='link' target={'_blank'} href="https://openlibrary.org/dev/docs/api/books">OpenLibrary.org book id doc.</a>
                <div className="addbtns">
                   <button
                      className='cancelBtn'

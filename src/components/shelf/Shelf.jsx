@@ -4,9 +4,8 @@ import './shelf.scss'
 import Delete from '../delete/Delete'
 import Edit from '../edit/Edit'
 
-const Shelf = () => {
+const Shelf = ({setBooktoShelf ,shelfBooks }) => {
 
-   const [books , setBooks] = useState([])
    const [delModal , setDelModal ] = useState(false)
    const [editModal , setEditModal ] = useState(false)
    const [ISBN,setIsbn] = useState('')
@@ -28,7 +27,7 @@ const Shelf = () => {
       fetch('http://localhost:9000/books')
          .then(res => res.json())
          .then(data => {
-            setBooks(data)
+            setBooktoShelf(data)
          })
          .catch(err => {
             console.log(err)
@@ -50,12 +49,12 @@ const Shelf = () => {
                </tr>
             </thead>
             <tbody>
-               {books.map((book,index) => {
+               {shelfBooks.map((book,index) => {
                   return(
                      <tr key={index}>
                         <td>{index+1}</td>
-                        <td><a href="#">#{book.isbn}</a></td>
-                        <td>{book.title}</td>
+                        <td><a target={'_blank'} className='link-isbn' href={`https://openlibrary.org/books/${book.isbn}`}>#{book.isbn}</a></td>
+                        <td className='titleBook'>{book.title}</td>
                         <td>{book.number_of_pages}</td>
                         <td>{book.publish_date}</td>
                         <td>{statusChecker(book.status)}</td>
@@ -75,7 +74,7 @@ const Shelf = () => {
                })}
             </tbody>
          </table>
-         { delModal ? <Delete ISBN = {ISBN} setDelModal = {setDelModal}  delModal = {delModal}/> : null}
+         { delModal ? <Delete shelfBooks = {shelfBooks} setBooktoShelf={setBooktoShelf} ISBN = {ISBN}  setDelModal = {setDelModal}  delModal = {delModal}/> : null}
          { editModal ? <Edit setEditModal = {setEditModal} editModal = {editModal}/> : null}
       </div>
    )

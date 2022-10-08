@@ -1,4 +1,6 @@
 
+import './edit.scss'
+
 const Edit = ({setEditModal , editModal}) => {
 
    const CancelHandler = () => {
@@ -10,10 +12,14 @@ const Edit = ({setEditModal , editModal}) => {
       <div className="modal">
          <div className="editmodal">
             <h1>Change Status</h1>
-            select option
+            <select>
+               <option value="">New</option>
+               <option value="">Read</option>
+               <option value="">Finished</option>
+            </select>
             <div className="editModalBtn">
-               <button onClick={CancelHandler}>Cancel</button>
-               <button>Update</button>
+               <button className='editcancelbnt' onClick={CancelHandler}>Cancel</button>
+               <button className='editupdatebtn'>Update</button>
             </div>
          </div>
       </div>

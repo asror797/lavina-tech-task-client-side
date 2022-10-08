@@ -1,6 +1,7 @@
 import './delete.scss'
+import { toast } from "react-toastify";
 
-const Delete = ({setDelModal , delModal , ISBN}) => {
+const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) => {
 
 
 
@@ -15,6 +16,23 @@ const Delete = ({setDelModal , delModal , ISBN}) => {
          .then(res => res.json())
          .then(data => {
             console.log(data)
+            toast.dark('Deleted', {
+               position: "top-right",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: true,
+               pauseOnHover: false,
+               draggable: true,
+               progress: undefined,
+            });
+            for (let i = 0; i < shelfBooks.length; i++) {
+               if(shelfBooks[i].isbn == ISBN) {
+                  shelfBooks.splice(i,1)
+                  setBooktoShelf(shelfBooks)
+               }
+            }
+            
+            setDelModal(false)
          })
          .catch(err => {
             console.log(err)
