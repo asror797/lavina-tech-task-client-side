@@ -9,6 +9,7 @@ const Shelf = ({setBooktoShelf ,shelfBooks }) => {
    const [delModal , setDelModal ] = useState(false)
    const [editModal , setEditModal ] = useState(false)
    const [ISBN,setIsbn] = useState('')
+   const [bookid , setID ] = useState('')
 
    const statusChecker = (status) => {
       if(status == 1)
@@ -23,6 +24,12 @@ const Shelf = ({setBooktoShelf ,shelfBooks }) => {
       setDelModal(true)
       setIsbn(e.target.dataset.isbn)
    }
+
+   const editBtnHandler = e => {
+      setID(e.target.dataset.id)
+      setEditModal(true)
+   }
+
    useEffect(()=> {
       fetch('http://localhost:9000/books')
          .then(res => res.json())
@@ -60,7 +67,8 @@ const Shelf = ({setBooktoShelf ,shelfBooks }) => {
                         <td>{statusChecker(book.status)}</td>
                         <td>
                            <button 
-                              onClick={() => setEditModal(true)}
+                              data-id = {book.id}
+                              onClick={editBtnHandler}
                               className='editbtn'>Edit</button>
                            <button 
                               data-isbn = {book.isbn}
@@ -75,7 +83,7 @@ const Shelf = ({setBooktoShelf ,shelfBooks }) => {
             </tbody>
          </table>
          { delModal ? <Delete shelfBooks = {shelfBooks} setBooktoShelf={setBooktoShelf} ISBN = {ISBN}  setDelModal = {setDelModal}  delModal = {delModal}/> : null}
-         { editModal ? <Edit setEditModal = {setEditModal} editModal = {editModal}/> : null}
+         { editModal ? <Edit shelfBooks = {shelfBooks} setBooktoShelf = {setBooktoShelf} bookid = {bookid} setEditModal = {setEditModal} editModal = {editModal}/> : null}
       </div>
    )
 }
