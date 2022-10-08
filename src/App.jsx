@@ -29,7 +29,7 @@ function App() {
           draggable
           pauseOnHover
         />
-        { isOpen ? <NewBook shelfBooks={shelfBooks} setBooktoShelf={setBooktoShelf}  setModal = {setModal} isOpen={isOpen}/> : null}
+        { isOpen ? <NewBook shelfBooks={shelfBooks} setBooktoShelf={setBooktoShelf}  setModal = {setModal}/> : null}
       </div>
     </>
   )

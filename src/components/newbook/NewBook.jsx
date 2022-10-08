@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './newbook.scss'
 // import { injectStyle } from "react-toastify/dist/inject-style";
 import { toast } from "react-toastify";
-const NewBook = ({setModal , isOpen , shelfBooks , setBooktoShelf}) => {
+const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
 
 
    const [ISBN , setISBN ] = useState()
@@ -12,11 +12,13 @@ const NewBook = ({setModal , isOpen , shelfBooks , setBooktoShelf}) => {
          let response = await fetch(`http://localhost:9000/add/${ISBN}`)
 
          response = await response.json()
-         console.log(response)
+         setModal(false)
          if(response.isbn ) {
-            toast.dark("Book Added")
+            toast.success("Book Added")
             setBooktoShelf([...shelfBooks , response])
-            setModal(!isOpen)
+         }else if (response.message == "NotFoundBook") {
+            toast.error("Not Found book")
+            setModal(false)
          }
 
       } catch (error) {
@@ -49,7 +51,7 @@ const NewBook = ({setModal , isOpen , shelfBooks , setBooktoShelf}) => {
                   <button
                      className='cancelBtn'
                      onClick={() => {
-                        setModal(!isOpen)
+                        setModal(false)
                      }}>
                      Cancel
                   </button>

@@ -43,16 +43,14 @@ const Edit = ({setEditModal , editModal , bookid , shelfBooks , setBooktoShelf})
          .then(data => {
             console.log(data)
             if(data.id) {
-               for (let i = 0; i < data.length; i++) {
-                  if(data[i].id == bookid) {
-                     return shelfBooks[i].status = data[i].status
+               for (let i = 0; i < shelfBooks.length; i++) {
+                  if(shelfBooks[i].id == data.id) {
+                     shelfBooks[i].status = data.status
+                     setBooktoShelf(shelfBooks)
                   }
-                  setBooktoShelf(shelfBooks)
                }
-
                setEditModal(false)
-               toast.dark('Updated')
-
+               toast.success('Updated')
             }
          })
          .catch(err => {

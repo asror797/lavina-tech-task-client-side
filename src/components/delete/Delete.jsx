@@ -16,7 +16,7 @@ const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) =
          .then(res => res.json())
          .then(data => {
             console.log(data)
-            toast.dark('Deleted', {
+            toast.success('Deleted', {
                position: "top-right",
                autoClose: 5000,
                hideProgressBar: false,
