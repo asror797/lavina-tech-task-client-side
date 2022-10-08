@@ -10,7 +10,7 @@ const NewBook = ({setModal  , shelfBooks , setBooktoShelf}) => {
    const addNewBook = async() => {
       try {
          setModal(false)
-         let response = await fetch(`http://localhost:9000/add/${ISBN}`)
+         let response = await fetch(`/add/${ISBN}`)
          response = await response.json()
 
          if(response.isbn ) {

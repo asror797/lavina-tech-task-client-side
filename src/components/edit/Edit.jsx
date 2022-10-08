@@ -8,7 +8,7 @@ const Edit = ({setEditModal , bookid , shelfBooks , setBooktoShelf}) => {
    const [editBook , setBook ] = useState({})
 
    useEffect(() => {
-      fetch(`http://localhost:9000/book/${bookid}`)
+      fetch(`/book/${bookid}`)
          .then(res => res.json())
          .then(data => {
             console.log(data)
@@ -32,7 +32,7 @@ const Edit = ({setEditModal , bookid , shelfBooks , setBooktoShelf}) => {
       if(status == editBook.status ||  status == '3' ) {
          setEditModal(false)
       }else {
-         fetch('http://localhost:9000/update',{
+         fetch('/update',{
          method:"PUT",
          headers:{
             'Content-Type':'application/json'

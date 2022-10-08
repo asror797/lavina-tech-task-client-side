@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 const Delete = ({setDelModal , delModal , ISBN , shelfBooks , setBooktoShelf}) => {
 
    const deleteBook = () => {
-      fetch(`http://localhost:9000/delete/${ISBN}`,{
+      fetch(`/delete/${ISBN}`,{
          method:"DELETE",
          headers:{
             'Accept': 'application/json',
