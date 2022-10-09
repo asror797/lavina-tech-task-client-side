@@ -31,7 +31,7 @@ const Shelf = ({setBooktoShelf ,shelfBooks }) => {
    }
 
    useEffect(()=> {
-      fetch('http://localhost:9000/books')
+      fetch('/books')
          .then(res => res.json())
          .then(data => {
             setBooktoShelf(data)
